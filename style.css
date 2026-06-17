@@ -27,11 +27,10 @@
 }
 
 :root {
-  /* Chicago (bundled webfont) = chrome + headings, identical on every device.
-     Body uses a universal sans so it matches across devices too — the old
-     "Geneva"-first stack only existed on Macs, so mobile looked different. */
-  --ui: "Chicago", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --text: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  /* Chicago = chrome (menu bar, title bar, headings). Geneva = body text,
+     so paragraphs read at a normal weight instead of Chicago's heavy bitmap. */
+  --ui: "Chicago", "Helvetica Neue", Helvetica, Geneva, Arial, sans-serif;
+  --text: Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 /* Always reserve the scrollbar track so every page is exactly the same width. */
