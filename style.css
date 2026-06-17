@@ -1,0 +1,241 @@
+/* =========================================================================
+   Personal site — classic Macintosh (System 7) styling.
+   Now with the real Chicago system font (bundled in /fonts), so the chrome
+   actually reads as old-Mac: dithered desktop, menu bar, striped title bar
+   with close/zoom boxes, rounded push buttons that invert when selected.
+   Hand-written, no build step.
+   ========================================================================= */
+
+@font-face {
+  font-family: "Chicago";
+  src: url("fonts/ChicagoFLF.woff2") format("woff2"),
+       url("fonts/ChicagoFLF.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Geneva9";
+  src: url("fonts/FindersKeepers.woff2") format("woff2"),
+       url("fonts/FindersKeepers.woff") format("woff");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Monaco";
+  src: url("fonts/monaco.woff2") format("woff2");
+  font-display: swap;
+}
+
+:root {
+  /* Chicago = chrome (menu bar, title bar, headings). Geneva = body text,
+     so paragraphs read at a normal weight instead of Chicago's heavy bitmap. */
+  --ui: "Chicago", "Helvetica Neue", Helvetica, Geneva, Arial, sans-serif;
+  --text: Geneva, "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* Always reserve the scrollbar track so every page is exactly the same width. */
+html { overflow-y: scroll; }
+
+body {
+  /* 50% gray dither — a 2px checkerboard, like the old Mac desktop */
+  background-color: #ffffff;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='2'%3E%3Crect width='1' height='1' fill='%23000'/%3E%3Crect x='1' y='1' width='1' height='1' fill='%23000'/%3E%3C/svg%3E");
+  color: #000000;
+  font-family: var(--text);
+  font-size: 15px;
+  line-height: 1.5;
+  font-weight: normal;
+  margin: 0;
+  padding: 46px 12px 32px;
+}
+
+/* ---- Mac menu bar (fixed across the top) --------------------------------- */
+.menubar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 22px;
+  display: flex;
+  align-items: stretch;
+  padding: 0 6px;
+  background: #ffffff;
+  border-bottom: 1px solid #000000;
+  font-family: var(--ui);          /* Chicago for the menu bar */
+  z-index: 100;
+}
+.menubar .logo,
+.menubar a,
+.menubar .brand {
+  display: flex;
+  align-items: center;
+  padding: 0 11px;
+  color: #000000;
+  text-decoration: none;
+}
+.menubar .logo img { display: block; width: 15px; height: 15px; }
+.menubar a:hover,
+.menubar a.here { background: #000000; color: #ffffff; }  /* Mac menu highlight */
+.menubar a.logo:hover { background: transparent; }        /* logo links home; don't invert it */
+.menubar .brand { margin-left: auto; }
+@media (max-width: 520px) {
+  .menubar { padding: 0 2px; }
+  .menubar .logo, .menubar a, .menubar .brand { padding: 0 7px; }
+  .menubar .brand { display: none; }   /* keep the bar from overflowing */
+}
+
+/* ---- Window -------------------------------------------------------------- */
+.window {
+  max-width: 700px;
+  margin: 0 auto;
+  background: #ffffff;
+  border: 1px solid #000000;
+  box-shadow: 1px 1px 0 #000000, 3px 3px 0 rgba(0, 0, 0, 0.28);
+}
+
+/* Striped title bar */
+.title-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 22px;
+  border-bottom: 1px solid #000000;
+  background: repeating-linear-gradient(#000 0 1px, #fff 1px 2px);
+}
+.title-text {
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  padding: 0 12px;
+  font-family: var(--ui);          /* Chicago for the window title */
+  font-size: 15px;
+}
+.close-box,
+.zoom-box {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 11px;
+  height: 11px;
+  background: #ffffff;
+  border: 1px solid #000000;
+  box-shadow: 0 0 0 3px #ffffff;   /* clears the stripes around the box */
+}
+.close-box { left: 9px; }
+.zoom-box { right: 9px; }
+.zoom-box::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 5px; height: 5px;
+  border-right: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+}
+
+/* Content area */
+.field { padding: 16px 20px; background: #ffffff; }
+.portrait {
+  float: right;
+  width: 150px;
+  height: 150px;
+  margin: 2px 0 10px 18px;
+  border: 1px solid #000000;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+}
+@media (max-width: 480px) {
+  .portrait { float: none; display: block; margin: 0 auto 14px; }
+}
+.field .tagline {
+  color: #555555;
+  margin: 0 0 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #cccccc;
+}
+
+/* Window bottom bar (footer) */
+.window-bottom {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  border-top: 1px solid #000000;
+  padding: 4px 12px;
+  font-size: 13px;
+  color: #333333;
+}
+
+/* ---- Content typography -------------------------------------------------- */
+a { color: #000000; text-decoration: underline; }
+a:hover { background: #000000; color: #ffffff; text-decoration: none; }
+
+h2 {
+  font-family: var(--ui);          /* Chicago for section headings */
+  font-size: 17px;
+  font-weight: normal;
+  border-bottom: 1px solid #000000;
+  padding-bottom: 2px;
+  margin: 22px 0 10px;
+  clear: both;                     /* drop below the floated portrait */
+}
+h3 { font-family: var(--ui); font-size: 15px; font-weight: normal; margin: 14px 0 2px; }
+
+p { margin: 0 0 12px; }
+ul { margin: 4px 0 12px; padding-left: 22px; }
+li { margin: 2px 0; }
+hr { border: 0; border-top: 1px solid #000000; margin: 18px 0; }
+
+.muted { color: #777777; }
+.muted a { color: inherit; }              /* links in muted captions stay gray at rest */
+.muted a:hover { color: #ffffff; }        /* but white-on-black on hover, so it stays readable */
+code { font-family: "Monaco", "Courier New", monospace; font-size: 13px; background: #eeeeee; padding: 0 3px; }
+
+/* Work list */
+.work-item { margin: 0 0 16px; }
+.work-item .title { font-weight: normal; }
+.work-item .year { color: #777777; }
+.work-item .tech { color: #555555; }
+
+/* Resume bits */
+.entry { margin-bottom: 14px; }
+.entry .when { color: #777777; }
+
+/* Contact table */
+.contact td { padding: 3px 16px 3px 0; vertical-align: top; }
+.contact td.k { color: #777777; white-space: nowrap; }
+
+/* Print: strip desktop + chrome so the resume saves cleanly to PDF */
+/* shown only when printing (name header, logistics, contact on the resume) */
+.print-only { display: none; }
+
+@media print {
+  @page { margin: 0.5in; }
+  /* avoid a phantom trailing blank page: don't inherit the screen scrollbar/height */
+  html, body { height: auto; min-height: 0; overflow: visible; }
+  body { background: #fff; padding: 0; font-size: 11pt; line-height: 1.35; color: #000; }
+  .menubar, .title-bar, .toolbar, .window-bottom, .actions, .tagline, .no-print { display: none; }
+  .print-only { display: block; }
+  .window { box-shadow: none; border: 0; max-width: none; }
+  .field { padding: 0; }
+  a { color: #000; text-decoration: none; }
+
+  /* darken secondary text (dates, notes) so it's legible in print */
+  .muted, .entry .when { color: #1a1a1a; }
+
+  /* distinguish entry headers from their notes: bold header, indented note */
+  .entry .where { font-weight: bold; }
+  .entry .muted { padding-left: 18px; }
+
+  /* name + photo + title header */
+  .print-head { display: flex; align-items: center; gap: 14px; margin: 0 0 14px; }
+  .print-photo { width: 54px; height: 54px; border: 1px solid #000; }
+  .print-head h2 { font-size: 23pt; margin: 0; border: 0; line-height: 1.05; }
+  .print-title { margin: 3px 0 0; font-size: 12pt; color: #000; }
+
+  /* section spacing */
+  h2 { font-size: 16pt; }
+  h3 { font-size: 12pt; margin: 11px 0 3px; }
+  .entry { margin-bottom: 7px; }
+  ul { margin: 2px 0 6px; padding-left: 18px; }
+  li { margin: 0 0 1px; }
+  p { margin: 0 0 6px; }
+  .field > *:last-child { margin-bottom: 0; }   /* trim trailing space */
+}
